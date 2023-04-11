@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <template id="search_template_currency">
+            <button t-if="options.get('currency')" type="button" class="o-no-caret btn btn-secondary dropdown-toggle account_currency_filter" data-bs-toggle="dropdown">
+                <span class="fa fa-folder-open"/> Currencies
+            </button>
+            <div class="dropdown-menu o_filters_menu" role="menu">
+                <t t-set="selected_currency_id" t-value="options.get('selected_currency_id')"/>
+                <t t-foreach="options['currency_ids']" t-as="currency">
+                    <t t-if="currency['id'] == selected_currency_id">
+                        <a role="menuitem" class="dropdown-item selected js_currency_selector"
+                           t-att-title="currency.get('name')"
+                           t-att-data-id="currency.get('id')">
+                            <t t-esc="currency.get('name')"/>
+                        </a>
+                    </t>
+                    <t t-else="">
+                        <a role="menuitem" class="dropdown-item js_currency_selector"
+                           t-att-title="currency.get('name')"
+                           t-att-data-id="currency.get('id')">
+                            <t t-esc="currency.get('name')"/>
+                        </a>
+                    </t>
+                </t>
+            </div>
+        </template>
+
+        <template id="search_template_multi_currency" inherit_id="account_reports.search_template">
+            <xpath expr="//div[hasclass('o_account_reports_filter_partner')]" position="after">
+                <t t-call="report_customization.search_template_currency" t-if="options.get('currency')"/>
+            </xpath>
+        </template>
+</odoo>
+
