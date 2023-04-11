@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_payment_form_inherit_currency_exchange" model="ir.ui.view">
+        <field name="name">account.payment.form.inherit.currency.exchange</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <field name="date" position='before'>
+                <field name="is_same_currency" invisible="1"/>
+                <field name="is_spot_currency"  attrs="{'invisible': ['|', ('is_internal_transfer', '=', False), ('is_same_currency', '=', False)], 'readonly': [('state', '!=', 'draft')]}" groups="base.group_multi_currency"/>
+                <field name="spot_currency_rate" attrs="{'invisible': [('is_spot_currency', '=', False)], 'readonly': [('state', '!=', 'draft')], 'required':  [('is_spot_currency', '=', True)]}" groups="base.group_multi_currency"/>
+            </field>
+        </field>
+    </record>
+</odoo>
